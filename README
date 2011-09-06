@@ -3,3 +3,10 @@ Usage: ploxy <incoming [ip=0.0.0.0:]port> <outgoing address[:port=80]>
 Examples:
     ploxy 8000 google.com <- proxies 0.0.0.0:8000 to google.com:80
     ploxy 127.0.0.1:8000 facebook.com <- proxies 127.0.0.1:8000 to facebook.com:80
+
+Request methods, URLs, and headers along with response headers will be logged to stdout in a simple format that can be grepped easily:
+
+IN Method: "GET"
+IN Url: "/"
+IN Headers: {"host":"localhost:8001","connection":"keep-alive","user-agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.220 Safari/535.1","accept":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8","accept-encoding":"gzip,deflate,sdch","accept-language":"en-GB,en-US;q=0.8,en;q=0.6","accept-charset":"ISO-8859-1,utf-8;q=0.7,*;q=0.3"}
+OUT Headers: {"content-type":"text/html","transfer-encoding":"chunked","date":"Tue, 06 Sep 2011 15:12:52 GMT","server":"lighttpd/1.4.29"}

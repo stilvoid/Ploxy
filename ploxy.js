@@ -32,9 +32,6 @@ if(/^\d+$/.test(out_address)) {
     out_address = [out_address, 80];
 }
 
-console.log(in_address);
-console.log(out_address);
-
 var server = http.createServer(function(in_request, in_response) {
     console.log("IN Method: " + JSON.stringify(in_request.method));
     console.log("IN Url: " + JSON.stringify(in_request.url));
