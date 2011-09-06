@@ -1,0 +1,5 @@
+Usage: ploxy <incoming [ip=0.0.0.0:]port> <outgoing address[:port=80]>
+
+Examples:
+    ploxy 8000 google.com <- proxies 0.0.0.0:8000 to google.com:80
+    ploxy 127.0.0.1:8000 facebook.com <- proxies 127.0.0.1:8000 to facebook.com:80
