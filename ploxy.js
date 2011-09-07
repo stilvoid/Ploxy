@@ -44,11 +44,16 @@ var server = http.createServer(function(in_request, in_response) {
         port: out_address[1],
         method: in_request.method,
         path: in_request.url,
-        headers: in_request.headers
+        headers: in_request.headers,
+        agent: false
     };
 
     var out_request = http.request(options, function(out_response) {
+        console.log("OUT Url: " + JSON.stringify(in_request.url));
         console.log("OUT Headers: " + JSON.stringify(out_response.headers));
+        console.log("OUT Status: " + out_response.statusCode);
+
+        in_response.writeHead(out_response.statusCode, out_response.headers);
 
         out_response.on("data", function(chunk) {
             in_response.write(chunk);
@@ -59,7 +64,17 @@ var server = http.createServer(function(in_request, in_response) {
         });
     });
 
+    out_request.on("close", function(error) {
+        console.log("OUT Close (" + in_request.url + "): " + JSON.stringify(error));
+    });
+
+    out_request.on("error", function(error) {
+        console.log("OUT Error (" + in_request.url + "): " + JSON.stringify(error));
+        in_response.end();
+    });
+
     in_request.on("data", function(chunk) {
+        console.log("IN Data: " + chunk);
         out_request.write(chunk);
     });
 
