@@ -37,7 +37,11 @@ var server = http.createServer(function(in_request, in_response) {
     console.log("IN Url: " + JSON.stringify(in_request.url));
     console.log("IN Headers: " + JSON.stringify(in_request.headers));
 
-    in_request.headers["host"] = out_address[0];
+    var in_host = in_request.headers["host"];
+
+    var out_host = out_address[0] + (out_address[1] == 80 ? "" : out_address[1]);
+
+    in_request.headers["host"] = out_host;
 
     var options = {
         host: out_address[0],
@@ -49,6 +53,11 @@ var server = http.createServer(function(in_request, in_response) {
     };
 
     var out_request = http.request(options, function(out_response) {
+        // Rewrite header
+        if(out_response.headers.hasOwnProperty("location")) {
+            out_response.headers["location"] = out_response.headers["location"].replace(out_host, in_host);
+        }
+
         console.log("OUT Url: " + JSON.stringify(in_request.url));
         console.log("OUT Headers: " + JSON.stringify(out_response.headers));
         console.log("OUT Status: " + out_response.statusCode);
